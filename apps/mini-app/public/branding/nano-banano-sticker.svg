@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260" role="img" aria-label="Demo nano-banano sticker">
+  <defs>
+    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff8c00"/>
+      <stop offset="45%" stop-color="#ff0066"/>
+      <stop offset="100%" stop-color="#b400ff"/>
+    </linearGradient>
+    <linearGradient id="banana" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff0a8"/>
+      <stop offset="40%" stop-color="#ffd35a"/>
+      <stop offset="100%" stop-color="#ff9e1f"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="130" cy="130" r="124" fill="url(#ring)"/>
+  <circle cx="130" cy="130" r="110" fill="#f7f7fb" stroke="#ffffff" stroke-width="6" opacity="0.92"/>
+  <circle cx="130" cy="130" r="98" fill="#b7b9cb"/>
+
+  <g transform="translate(74 72) rotate(-10)">
+    <path d="M0 28c16-8 36-8 50-1 10 6 15 16 14 27-2 25-26 47-52 54-11 3-22 2-31-3-7-4-6-14 1-17l22-11c-9-9-15-20-16-32-1-9 8-17 12-5 6 15 34 27 58 21-19-12-35-35-25-39s26 12 38 21c6 5 16-4 10-10C64 19 47 7 34 3 20-1 6 7 0 28z" fill="url(#banana)" stroke="#f2bf3c" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M10 16c10-8 23-10 31-7" stroke="#fff7c9" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+    <circle cx="82" cy="94" r="8" fill="#f7f7fb" opacity="0.9"/>
+  </g>
+
+  <text x="130" y="200" text-anchor="middle" font-family="Manrope, 'Inter', sans-serif" font-size="18" letter-spacing="4" fill="#111018" font-weight="700">
+    NANO BANANO
+  </text>
+</svg>

@@ -1,0 +1,13 @@
+node_modules
+.DS_Store
+.env
+.env.*
+dist
+coverage
+npm-debug.log*
+apps/**/node_modules
+apps/**/dist
+apps/**/.vite
+apps/**/.turbo
+playwright-report
+test-results

@@ -1,0 +1,196 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PhotoStatus {
+  draft
+  published
+}
+
+enum NotificationStatus {
+  pending
+  sent
+  failed
+}
+
+enum AppointmentStatus {
+  requested
+  confirmed
+  declined
+  completed
+}
+
+enum FeedbackChoice {
+  love
+  tweak
+}
+
+model Company {
+  id               Int              @id @default(autoincrement())
+  name             String
+  brandText        String?
+  slug             String           @unique
+  inviteCode       String           @unique
+  logoFileId       String?
+  logoFileUniqueId String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  admins           AdminInfo[]
+  clients          ClientUser[]
+  photoBatches     PhotoBatch[]
+  photos           Photo[]
+  notifications    Notification[]
+  appointments     AppointmentRequest[]
+  feedbacks        FeedbackResponse[]
+  loyaltyRewards   LoyaltyReward[]
+  lookbookTopics   LookbookTopic[]
+}
+
+model AdminInfo {
+  id          Int      @id @default(autoincrement())
+  userId      String   @unique
+  clinicName  String
+  login       String   @unique
+  passwordHash String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  company     Company  @relation(fields: [companyId], references: [id])
+  companyId   Int
+}
+
+model ClientUser {
+  id            Int       @id @default(autoincrement())
+  telegramId    String    @unique
+  firstName     String?
+  lastName      String?
+  username      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  miniAppOpens  Int       @default(0)
+  loyaltyPoints Int       @default(0)
+  streakCount   Int       @default(0)
+  lastActivityAt DateTime?
+  lastRewardedAt DateTime?
+  company       Company   @relation(fields: [companyId], references: [id])
+  companyId     Int
+  likes         Like[]
+  photos        Photo[]   @relation("UploaderPhotos")
+  notifications Notification[]
+  appointments  AppointmentRequest[]
+  feedbacks     FeedbackResponse[]
+  rewards       LoyaltyReward[]
+}
+
+model PhotoBatch {
+  id          Int       @id @default(autoincrement())
+  label       String
+  publishedAt DateTime  @default(now())
+  company     Company   @relation(fields: [companyId], references: [id])
+  companyId   Int
+  photos      Photo[]
+  lookbookTopics LookbookTopic[]
+}
+
+model Photo {
+  id           Int         @id @default(autoincrement())
+  fileId       String
+  fileUniqueId String
+  caption      String?
+  storyCount   Int         @default(1)
+  status       PhotoStatus @default(draft)
+  createdAt    DateTime    @default(now())
+  publishedAt  DateTime?
+  batch        PhotoBatch? @relation(fields: [batchId], references: [id])
+  batchId      Int?
+  uploader     ClientUser? @relation("UploaderPhotos", fields: [uploaderId], references: [id])
+  uploaderId   Int?
+  company      Company     @relation(fields: [companyId], references: [id])
+  companyId    Int
+  likes        Like[]
+}
+
+model Like {
+  id        Int        @id @default(autoincrement())
+  user      ClientUser @relation(fields: [userId], references: [id])
+  userId    Int
+  photo     Photo      @relation(fields: [photoId], references: [id])
+  photoId   Int
+  createdAt DateTime   @default(now())
+
+  @@unique([userId, photoId])
+}
+
+model Notification {
+  id         Int                @id @default(autoincrement())
+  user       ClientUser         @relation(fields: [userId], references: [id])
+  userId     Int
+  type       String
+  payload    Json
+  status     NotificationStatus @default(pending)
+  deliverAt  DateTime           @default(now())
+  sentAt     DateTime?
+  error      String?
+  createdAt  DateTime           @default(now())
+  company    Company            @relation(fields: [companyId], references: [id])
+  companyId  Int
+}
+
+model LookbookTopic {
+  id             Int         @id @default(autoincrement())
+  keyword        String      @unique
+  title          String
+  description    String?
+  batch          PhotoBatch? @relation(fields: [batchId], references: [id])
+  batchId        Int?
+  heroPhotoFileId String?
+  company        Company?    @relation(fields: [companyId], references: [id])
+  companyId      Int?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model AppointmentRequest {
+  id                 Int               @id @default(autoincrement())
+  user               ClientUser        @relation(fields: [userId], references: [id])
+  userId             Int
+  desiredAt          DateTime
+  note               String?
+  status             AppointmentStatus @default(requested)
+  confirmedAt        DateTime?
+  confirmationNote   String?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  feedback           FeedbackResponse?
+  company            Company           @relation(fields: [companyId], references: [id])
+  companyId          Int
+}
+
+model FeedbackResponse {
+  id             Int              @id @default(autoincrement())
+  user           ClientUser       @relation(fields: [userId], references: [id])
+  userId         Int
+  appointment    AppointmentRequest? @relation(fields: [appointmentId], references: [id])
+  appointmentId  Int?              @unique
+  context        String?
+  choice         FeedbackChoice
+  createdAt      DateTime         @default(now())
+  company        Company          @relation(fields: [companyId], references: [id])
+  companyId      Int
+}
+
+model LoyaltyReward {
+  id        Int        @id @default(autoincrement())
+  user      ClientUser @relation(fields: [userId], references: [id])
+  userId    Int
+  type      String
+  label     String
+  payload   Json?
+  createdAt DateTime   @default(now())
+  company   Company    @relation(fields: [companyId], references: [id])
+  companyId Int
+}

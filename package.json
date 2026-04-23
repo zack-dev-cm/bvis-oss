@@ -1,0 +1,29 @@
+{
+  "name": "bvis",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Telegram Mini App and bot backend for beauty studio visual feeds.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zack-dev-cm/bvis-oss.git"
+  },
+  "workspaces": [
+    "apps/api",
+    "apps/mini-app"
+  ],
+  "scripts": {
+    "dev:api": "npm run dev --workspace api",
+    "dev:web": "npm run dev --workspace mini-app",
+    "build": "npm run build --workspace mini-app && npm run build --workspace api",
+    "start": "npm run start --workspace api",
+    "seed": "npm run seed --workspace api",
+    "test:e2e": "playwright test",
+    "test:e2e:report": "playwright show-report",
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "npm run format --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1"
+  }
+}

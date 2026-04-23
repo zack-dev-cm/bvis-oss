@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm ci --workspaces --include-workspace-root
+      - name: Build web and api
+        run: npm run build
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright e2e
+        run: npm run test:e2e
+
+      - name: Secret scanning release gate
+        run: |
+          ! git grep -nE '/Users/|/home/[^ ]+|[A-Za-z0-9-]+-[A-Za-z0-9-]+\.a\.run\.app|/cloudsql/|[0-9]{6,}-compute@developer\.gserviceaccount\.com|https://t\.me/[A-Za-z0-9_]{5,}' -- . ':!package-lock.json' ':!.github/workflows/ci.yml'
+          ! git grep -nE '[0-9]{6,}:[A-Za-z0-9_-]{30,}|ghp_[A-Za-z0-9]+|github_pat_[A-Za-z0-9_]+|AIza[0-9A-Za-z_-]{30,}|BEGIN .*PRIVATE KEY' -- . ':!package-lock.json' ':!.github/workflows/ci.yml'

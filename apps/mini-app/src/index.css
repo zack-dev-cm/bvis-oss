@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@500;600;700&display=swap');
+
+:root {
+  font-family: 'Space Grotesk', 'Manrope', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  line-height: 1.45;
+  font-weight: 500;
+  color: #10131f;
+  background-color: #f7f9ff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --ink: #1b2333;
+  --muted: #5b6274;
+  --muted-2: #6f768c;
+  --line: rgba(31, 43, 67, 0.08);
+  --line-strong: rgba(31, 43, 67, 0.16);
+  --page-bg: radial-gradient(circle at 16% 16%, #fef6fb 0%, #f3f8ff 42%, #e4f1ff 72%, #f6f9f1 100%);
+  --accent-gradient: linear-gradient(135deg, #9fd6f3 0%, #f7d4e2 50%, #ffd6a5 100%);
+  --soft-shadow: 0 16px 40px rgba(59, 80, 118, 0.18);
+  --pastel-lilac: #dcd9ff;
+  --pastel-mint: #c8f2e4;
+  --pastel-peach: #ffd6a5;
+  --pastel-pink: #f7cfe1;
+  --pastel-sand: #f4efe6;
+  --story-ring-bg: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ff377c;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--page-bg);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Bricolage Grotesque', 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: 0.01em;
+}
+
+button {
+  font-family: inherit;
+}

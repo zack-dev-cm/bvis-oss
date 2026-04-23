@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+Dockerfile
+.git
+.gitignore
+apps/**/node_modules
+apps/**/dist
+apps/**/.turbo
+apps/**/.vite
+.coverage
+.env
+.env.*
